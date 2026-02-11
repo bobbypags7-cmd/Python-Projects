@@ -73,7 +73,7 @@ class Character:
         if self.health <= 0:
             self.health = 0
 
-    
+
     def attack(self, target):
         total_attack_power = self.attack_power + self.attack_buff       # Tarukaja attack buff
         damage = int(total_attack_power * self.next_attack_multiplier)  # Charge attack multiplier
