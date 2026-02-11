@@ -1,0 +1,62 @@
+board = [[0,0,0],[0,0,0],[0,0,0]]
+
+def printRow(row):
+    print("|", end="") # left border
+    for i in range(3): 
+        symbol = ["   ", " x ", " o "] # 0 = blank, 1 = x, 2 = o
+        print(symbol[row[i]] + "|", end = "") # print correct symbol and right border
+    print(end='\n') # new line
+
+def printBoard(board):
+    print("+-----------+") # top border
+    for i in range(3):
+        printRow(board[i])
+        print("+-----------+") # middle and bottom borders
+
+def markBoard(board, row, col, player):
+    if board[row][col] == 0: # check if square is blank
+        board[row][col] = player # mark the board with player input
+        return True
+    else:
+        print("Space already taken!")
+        return False # restarts player's turn if space is taken; (if markBoard(board,row,col,player): in main)
+
+
+def getPlayerMove(player):
+    while True:
+        try: # makes it so an invalid input (ex: decimal or letter) won't crash the program
+            if player == 1:
+                print("Player x's turn.")
+            else:
+                print("Player o's turn.")
+            row = int(input("pick a row (0, 1, 2): ")) 
+            if row < 0 or row > 2:
+                print("Invalid row. Please pick 0, 1, or 2.")
+                return getPlayerMove(player) # restarts player's turn
+            col = int(input("pick a col (0, 1, 2): "))
+            if col < 0 or col > 2:
+                print("Invalid column. Please pick 0, 1, or 2.")
+                return getPlayerMove(player)
+            return (row, col)
+        except ValueError:
+            print("Invalid input. Please enter 0, 1, or 2 only.")
+    
+
+
+def hasBlanks(board):
+    for row in board:
+        for square in row:
+            if square == 0:
+                return True
+    return False
+
+def main():
+ player = 1 
+ while hasBlanks(board):
+   printBoard(board)   
+   row,col = getPlayerMove(player)
+   if markBoard(board,row,col,player): # only switch players on a valid move
+       player = player % 2 + 1
+ printBoard(board)
+ print("Game Over")
+main()
