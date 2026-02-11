@@ -1,0 +1,59 @@
+def SelectionSortPrice(prices):
+    for slot in range(len(prices) -1, 0, -1):
+        minpos = 0
+        for location in range(1, slot + 1):
+            if prices[location] < prices[minpos]:
+                minpos = location
+
+        temp = prices[slot]
+        prices[slot] = prices[minpos]
+        prices[minpos] = temp
+
+def SelectionSortFruit(fruits):
+    for slot in range(len(fruits) -1, 0, -1):
+        maxpos = 0
+        for location in range(1, slot + 1):
+            if fruits[location] > fruits[maxpos]:
+                maxpos = location
+        
+        temp = fruits[slot]
+        fruits[slot] = fruits[maxpos]
+        fruits[maxpos] = temp
+
+def ReadFile(filename):
+    try:
+        with open(filename, 'r') as infile:
+            line = infile.readline()
+            items = [i.strip() for i in line.split(',')]
+            try: # If numbers are used (price), convert to float
+                items = [float(i) for i in items]
+            except ValueError:
+                pass
+            return items
+    except FileNotFoundError:
+        print(f"File '{filename}' not found. Please try again.")
+        return None
+
+
+
+def main():
+    print("Selection Sort")
+    pricefilename = input("Enter the name of the price file: ")
+    prices = ReadFile(pricefilename)
+    if prices == None:
+        return main()
+    SelectionSortPrice(prices)
+    print("The sorted prices (descending) are:")
+    for price in prices:
+        print(price)
+    
+    fruitfilename = input("Enter the name of the fruit file: ")
+    fruits = ReadFile(fruitfilename)  
+    if fruits == None:
+        return main()
+    SelectionSortFruit(fruits)
+    print("The sorted fruits (alphabetical) are:")
+    for fruit in fruits:
+        print(fruit)
+
+main()
