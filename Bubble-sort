@@ -1,0 +1,51 @@
+def BubbleSortPrice(prices):
+    for passnum in range(len(prices)-1,0,-1):
+        for i in range(passnum):
+            if prices[i] < prices[i+1]:
+                temp = prices[i]
+                prices[i] = prices[i+1]
+                prices[i+1] = temp
+
+def BubbleSortFruit(fruits):
+    for passnum in range(len(fruits)-1,0,-1):
+        for i in range(passnum):
+            if fruits[i] > fruits[i+1]:
+                temp = fruits[i]
+                fruits[i] = fruits[i+1]
+                fruits[i+1] = temp
+
+def ReadFile(filename):
+    try:
+        with open(filename, 'r') as infile:
+            line = infile.readline()
+            items = [i.strip() for i in line.split(',')]
+            try: # If numbers are used (price), convert to float
+                items = [float(i) for i in items]
+            except ValueError:
+                pass
+            return items
+    except FileNotFoundError:
+        print(f"File '{filename}' not found. Please try again.")
+        return None
+
+def main():
+    print("Bubble Sort")
+    pricefilename = input("Enter the name of the price file: ")
+    prices = ReadFile(pricefilename)
+    if prices == None:
+        return main()
+    BubbleSortPrice(prices)
+    print("The sorted prices (descending) are:")
+    for price in prices:
+        print(price)
+    
+    fruitfilename = input("Enter the name of the fruit file: ")
+    fruits = ReadFile(fruitfilename)  
+    if fruits == None:
+        return main()
+    BubbleSortFruit(fruits)
+    print("The sorted fruits (alphabetical) are:")
+    for fruit in fruits:
+        print(fruit)
+
+main()
